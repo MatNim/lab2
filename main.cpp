@@ -1,23 +1,60 @@
 #include <stdio.h>
 #include <assert.h>
 #include <time.h>
+#include <stdlib.h>
+#include <math.h>
 
-//int gcd (int a, int b);
+
+
+int gcd (int a, int b)
+{
+	for (int i = abs(a); i > 0; i--) {
+		if (a % i == 0 && b % i == 0) return i;
+
+	}
+	return 1;
+}
 
 struct fraction
 {
+	int nominator;
+	int denominator;
+	bool is_correct()
+	{
+		return (abs(nominator) < abs(denominator)  && (denominator !=0)) ? true : false;
+	}
+	void shorten() {
+		int shortener = gcd(nominator, denominator);
+		
+		nominator /= shortener;
+		denominator /= shortener;
 
+	}
 };
+
 
 int main(int argc, char **argv)
 {
-	fraction *fractions;
+	srand(time(NULL));
 
-	/*
+	int n = atoi(argv[1]);
+	
+	fraction *fractions;
+	fractions = new fraction[n];
+	for (int i = 0;i<n;i++)
+	{
+		do {
+			
+			fractions[i].nominator = rand() % 20 - 9;
+			fractions[i].denominator = rand() % 20 - 9;
+			fractions[i].shorten();
+		} while (!fractions[i].is_correct());
+	}
+		
 	for (int i = 0; i < n; assert(fractions[i++].is_correct()))
-		printf("[%i] %2i / %2i\n", 
-			i, 
-			fractions[i].nominator, 
-			fractions[i].denominator);
-	*/
+	printf("[%i] %2i / %2i\n",
+	i,
+	fractions[i].nominator,
+	fractions[i].denominator);
+	scanf("%d", &n);
 }
